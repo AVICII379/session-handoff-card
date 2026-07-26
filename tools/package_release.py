@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""为 session-handoff-card 创建确定性的插件发布 ZIP 和校验清单。"""
+"""为 session-handoff-card 创建跨平台逐字节确定的插件发布 ZIP。"""
 
 from __future__ import annotations
 
@@ -39,13 +39,26 @@ def plugin_files() -> list[Path]:
 
 def write_deterministic_zip(destination: Path, files: list[Path]) -> None:
     with zipfile.ZipFile(
-        destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
+        destination,
+        "w",
+        compression=zipfile.ZIP_STORED,
+        allowZip64=False,
+        strict_timestamps=True,
     ) as archive:
         for path in files:
             relative = path.relative_to(PLUGIN_ROOT).as_posix()
             info = zipfile.ZipInfo(relative, FIXED_ZIP_TIME)
-            info.compress_type = zipfile.ZIP_DEFLATED
+            # DEFLATE 的输出可能随 Python/zlib 版本变化。文件很小，使用 STORED
+            # 并固定全部可见元数据，换取 Windows/Linux 间相同的容器字节。
+            info.compress_type = zipfile.ZIP_STORED
+            info.create_system = 3
+            info.create_version = 20
+            info.extract_version = 10
+            info.flag_bits = 0
+            info.internal_attr = 0
             info.external_attr = 0o100644 << 16
+            info.extra = b""
+            info.comment = b""
             archive.writestr(info, path.read_bytes())
 
 

@@ -176,8 +176,9 @@ python -m unittest discover -s tests -v
 python .\tools\package_release.py --output-dir .\dist
 ```
 
-脚本会生成插件 ZIP、`release-manifest.json` 和 `SHA256SUMS.txt`。相同源码和
-版本重复打包应得到相同 SHA-256。
+脚本会生成插件 ZIP、`release-manifest.json` 和 `SHA256SUMS.txt`。ZIP 使用固定
+元数据和无压缩存储，避免不同系统或 zlib 版本改变容器字节；CI 会比较四个
+系统/Python 组合的 SHA-256，只有完全一致才发布验证工件。
 
 ## 协议状态
 
@@ -214,7 +215,7 @@ python .\tools\package_release.py --output-dir .\dist
 
 ## 发布状态
 
-公开坐标为 `AVICII379/session-handoff-card`，当前插件版本为 `0.3.1`。仓库具备
+公开坐标为 `AVICII379/session-handoff-card`，当前插件版本为 `0.3.2`。仓库具备
 跨平台 CI、长会话演示、确定性 ZIP 打包和源码/压缩包隐私扫描。首次推送后仍需：
 
 - 确认 GitHub Actions 四个系统/版本组合全部通过；

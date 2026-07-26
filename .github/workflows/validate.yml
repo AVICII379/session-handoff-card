@@ -42,14 +42,46 @@ jobs:
       - name: Check release package for publication leaks
         run: python tools/check_publication_privacy.py --archive-dir dist
 
-      - name: Upload validation package
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+      - name: Upload matrix package
         uses: actions/upload-artifact@v7
         with:
-          name: session-handoff-card-plugin
+          name: session-handoff-card-plugin-${{ matrix.os }}-py${{ matrix.python-version }}
           path: |
             dist/*.zip
             dist/SHA256SUMS.txt
             dist/release-manifest.json
+          if-no-files-found: error
+          retention-days: 7
+
+  deterministic-package:
+    name: Cross-platform deterministic package
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Download all matrix packages
+        uses: actions/download-artifact@v8
+        with:
+          pattern: session-handoff-card-plugin-*
+          path: artifacts
+
+      - name: Require identical package hashes
+        run: python tools/verify_release_set.py artifacts --expected-count 4
+
+      - name: Upload verified release package
+        uses: actions/upload-artifact@v7
+        with:
+          name: session-handoff-card-plugin
+          path: |
+            artifacts/session-handoff-card-plugin-ubuntu-latest-py3.12/*.zip
+            artifacts/session-handoff-card-plugin-ubuntu-latest-py3.12/SHA256SUMS.txt
+            artifacts/session-handoff-card-plugin-ubuntu-latest-py3.12/release-manifest.json
           if-no-files-found: error
           retention-days: 7

@@ -40,7 +40,7 @@ class RepositoryContractTests(unittest.TestCase):
             (PLUGIN / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8")
         )
         self.assertEqual(manifest["name"], "session-handoff-card")
-        self.assertEqual(manifest["version"], "0.3.1")
+        self.assertEqual(manifest["version"], "0.3.2")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["author"]["name"], "AVICII379")
         self.assertEqual(
@@ -82,7 +82,9 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("actions/checkout@v7", workflow)
         self.assertIn("actions/setup-python@v7", workflow)
         self.assertIn("actions/upload-artifact@v7", workflow)
+        self.assertIn("actions/download-artifact@v8", workflow)
         self.assertEqual(workflow.count("check_publication_privacy.py"), 2)
+        self.assertIn("verify_release_set.py artifacts --expected-count 4", workflow)
 
     def test_skill_is_chinese_first_and_complete(self) -> None:
         text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
@@ -200,41 +202,59 @@ class RepositoryContractTests(unittest.TestCase):
             self.assertIn("源历史的 85%", warnings)
 
     def test_release_zip_is_deterministic_and_complete(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="handoff-release-a-") as first:
-            with tempfile.TemporaryDirectory(prefix="handoff-release-b-") as second:
-                for target in (first, second):
-                    subprocess.run(
-                        [
-                            sys.executable,
-                            str(ROOT / "tools" / "package_release.py"),
-                            "--output-dir",
-                            target,
-                        ],
-                        cwd=ROOT,
-                        check=True,
-                        capture_output=True,
-                        text=True,
-                        encoding="utf-8",
-                    )
-                first_manifest = json.loads(
-                    (Path(first) / "release-manifest.json").read_text(
-                        encoding="utf-8"
-                    )
+        with tempfile.TemporaryDirectory(prefix="handoff-release-set-") as temp:
+            first = Path(temp) / "first"
+            second = Path(temp) / "second"
+            for target in (first, second):
+                subprocess.run(
+                    [
+                        sys.executable,
+                        str(ROOT / "tools" / "package_release.py"),
+                        "--output-dir",
+                        str(target),
+                    ],
+                    cwd=ROOT,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
                 )
-                second_manifest = json.loads(
-                    (Path(second) / "release-manifest.json").read_text(
-                        encoding="utf-8"
-                    )
-                )
-                self.assertEqual(
-                    first_manifest["sha256"], second_manifest["sha256"]
-                )
-                archive = Path(first) / first_manifest["archive"]
-                with zipfile.ZipFile(archive) as package:
-                    names = set(package.namelist())
-                self.assertIn(".codex-plugin/plugin.json", names)
-                self.assertIn("skills/session-handoff-card/SKILL.md", names)
-                self.assertEqual(first_manifest["file_count"], len(names))
+            first_manifest = json.loads(
+                (first / "release-manifest.json").read_text(encoding="utf-8")
+            )
+            second_manifest = json.loads(
+                (second / "release-manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(first_manifest["sha256"], second_manifest["sha256"])
+            archive = first / first_manifest["archive"]
+            with zipfile.ZipFile(archive) as package:
+                infos = package.infolist()
+                names = {info.filename for info in infos}
+            self.assertIn(".codex-plugin/plugin.json", names)
+            self.assertIn("skills/session-handoff-card/SKILL.md", names)
+            self.assertEqual(first_manifest["file_count"], len(names))
+            for info in infos:
+                self.assertEqual(info.compress_type, zipfile.ZIP_STORED)
+                self.assertEqual(info.date_time, (2020, 1, 1, 0, 0, 0))
+                self.assertEqual(info.create_system, 3)
+
+            verified = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "verify_release_set.py"),
+                    temp,
+                    "--expected-count",
+                    "2",
+                ],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+            )
+            verification = json.loads(verified.stdout)
+            self.assertTrue(verification["ok"])
+            self.assertEqual(verification["package_count"], 2)
 
     def test_publication_privacy_gate_scans_source_and_package(self) -> None:
         with tempfile.TemporaryDirectory(prefix="handoff-privacy-") as temp:
