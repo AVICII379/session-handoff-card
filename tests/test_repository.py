@@ -270,6 +270,7 @@ class RepositoryContractTests(unittest.TestCase):
             self.assertEqual([info.filename for info in infos], sorted(info.filename for info in infos))
             for required in (".codex-plugin/plugin.json", "skills/session-handoff-card/SKILL.md", "skills/session-handoff-card/scripts/normalize_history.py", "skills/session-handoff-card/scripts/redact_handoff.py"):
                 self.assertIn(required, names)
+            self.assertFalse(any("__pycache__" in name or name.endswith((".pyc", ".pyo")) for name in names))
             self.assertEqual(first_manifest["file_count"], len(names))
             for info in infos:
                 self.assertEqual(info.compress_type, zipfile.ZIP_STORED)

@@ -15,6 +15,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PLUGIN_ROOT = REPO_ROOT / "plugins" / "session-handoff-card"
 MANIFEST_PATH = PLUGIN_ROOT / ".codex-plugin" / "plugin.json"
 FIXED_ZIP_TIME = (2020, 1, 1, 0, 0, 0)
+GENERATED_PARTS = {"__pycache__", ".pytest_cache"}
+GENERATED_NAMES = {".DS_Store", "Thumbs.db"}
+GENERATED_SUFFIXES = {".pyc", ".pyo"}
 
 
 def configure_stdio() -> None:
@@ -31,7 +34,14 @@ def plugin_files() -> list[Path]:
     # Path 的默认排序在 Windows 会折叠大小写，在 Linux 则区分大小写；必须按
     # 归档内 POSIX 名称排序，才能让中央目录和本地文件头顺序跨平台一致。
     files = sorted(
-        (path for path in PLUGIN_ROOT.rglob("*") if path.is_file()),
+        (
+            path
+            for path in PLUGIN_ROOT.rglob("*")
+            if path.is_file()
+            and not any(part in GENERATED_PARTS for part in path.relative_to(PLUGIN_ROOT).parts)
+            and path.name not in GENERATED_NAMES
+            and path.suffix.casefold() not in GENERATED_SUFFIXES
+        ),
         key=lambda path: path.relative_to(PLUGIN_ROOT).as_posix(),
     )
     if not files:
