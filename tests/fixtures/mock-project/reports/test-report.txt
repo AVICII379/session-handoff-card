@@ -1,0 +1,6 @@
+Snapshot time: 2026-07-19T14:00:00-04:00
+Command: python -m unittest discover -s tests -v
+Result: 6 tests passed
+Scope: filename parsing, title case preservation, missing-year REVIEW, SHA-256, DUPLICATE
+Not covered: detect_name_collisions(rows), NAME_COLLISION precedence
+Conclusion: existing branches pass; project acceptance is not complete

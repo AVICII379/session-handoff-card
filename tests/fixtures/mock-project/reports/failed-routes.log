@@ -1,0 +1,3 @@
+2026-07-19 pandas route: ModuleNotFoundError; user prohibited dependency installation.
+2026-07-19 Crossref route: ConnectTimeout after 30 seconds; user prohibited retry and required fully offline operation.
+2026-07-19 collision auto-suffix idea: rejected by user; NAME_COLLISION must remain visible for review.

@@ -1,0 +1,20 @@
+{
+  "name": "session-handoff-card",
+  "interface": {
+    "displayName": "通用会话交接卡"
+  },
+  "plugins": [
+    {
+      "name": "session-handoff-card",
+      "source": {
+        "source": "local",
+        "path": "./plugins/session-handoff-card"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

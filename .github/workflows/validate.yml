@@ -1,0 +1,55 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        python-version: ["3.10", "3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run repository tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check source tree for publication leaks
+        run: python tools/check_publication_privacy.py
+
+      - name: Run long-session demo
+        run: python examples/run_demo.py
+
+      - name: Build deterministic plugin package
+        run: python tools/package_release.py --output-dir dist
+
+      - name: Check release package for publication leaks
+        run: python tools/check_publication_privacy.py --archive-dir dist
+
+      - name: Upload validation package
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        uses: actions/upload-artifact@v7
+        with:
+          name: session-handoff-card-plugin
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
+            dist/release-manifest.json
+          if-no-files-found: error
+          retention-days: 7

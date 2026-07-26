@@ -1,0 +1,40 @@
+{
+  "current_goal": "在 mock-project 中完成完全离线、中文提示、仅生成 TSV 预览的文献目录工具；当前仍被命名冲突逻辑阻塞。",
+  "unique_next_action": "只读检查 spec-current.md、src/catalog.py、tests/test_catalog.py、test-report.txt 和 failed-routes.log，提出 detect_name_collisions(rows) 的精确修改计划及两条新增测试，然后停止等待确认。",
+  "must_not_execute": [
+    "修改代码",
+    "安装依赖",
+    "联网或重试 Crossref",
+    "处理真实下载目录",
+    "移动或重命名文件"
+  ],
+  "superseded_or_rejected": [
+    "桌面 GUI",
+    "英文提示",
+    "output/index.csv",
+    "自动安装 pandas 或 requests",
+    "Crossref DOI 补齐",
+    "自动加序号解决命名冲突",
+    "真实自动重命名"
+  ],
+  "current_output": "artifacts/catalog-preview.tsv",
+  "status_precedence": [
+    "DUPLICATE",
+    "NAME_COLLISION",
+    "REVIEW",
+    "READY"
+  ],
+  "evidence_files": [
+    "spec-current.md",
+    "src/catalog.py",
+    "tests/test_catalog.py",
+    "reports/test-report.txt",
+    "reports/failed-routes.log"
+  ],
+  "known_state": {
+    "passing_tests": 6,
+    "missing_function": "detect_name_collisions(rows)",
+    "missing_tests": 2,
+    "git_assumption": "不得假设是 Git 仓库"
+  }
+}
