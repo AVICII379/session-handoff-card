@@ -1,0 +1,3 @@
+# Personal planning session
+
+The user is planning a three-day family trip for four people. The original budget was 8,000 CNY, but the latest limit is 5,500 CNY total excluding travel to the destination. One traveler is vegetarian and another cannot climb long stair routes. The family prefers one hotel for all nights and no departures before 09:00. The user only wants options and has not authorized bookings, calls, deposits, or sharing anyone's identity details. A theme-park day was discussed early but dropped because it breaks the new budget. The next action is to produce a shortlist of two destination plans with rough category budgets and accessibility notes. Stop before checking out, contacting vendors, or requesting identity documents.

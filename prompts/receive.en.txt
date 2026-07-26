@@ -1,0 +1,1 @@
+Read the entire handoff card. First restate the current goal, superseded or prohibited actions, evidence confidence, context gaps, one next action, and stop condition. Do not revive superseded requirements or treat later candidates as authorization. Mark inaccessible external state UNVERIFIED or BLOCKED, then perform only the one next action.

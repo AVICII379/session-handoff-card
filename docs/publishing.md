@@ -23,6 +23,7 @@
 ```powershell
 $env:PYTHONUTF8 = "1"
 python -m unittest discover -s tests -v
+python .\tools\run_benchmark_checks.py
 python .\tools\check_publication_privacy.py
 python .\examples\run_demo.py
 python .\tools\package_release.py --output-dir .\dist
@@ -32,6 +33,7 @@ python .\tools\check_publication_privacy.py --archive-dir .\dist
 必须同时满足：
 
 - 所有测试通过；
+- 五场景基准夹具完整，且 QUICK/VERIFIED 两档均被覆盖；
 - 演示为 `HANDOFF_READY / FULL`；
 - `coverage_exact` 为 `true`；
 - 校验器错误和警告均为 0；
@@ -88,9 +90,9 @@ codex plugin add session-handoff-card@session-handoff-card
 
 新建任务后检查：
 
-1. 插件显示名是“通用会话交接卡”；
+1. 插件显示名是“AI 续聊交接卡”；
 2. `session-handoff-card` Skill 能被发现；
-3. 中文默认提示词可触发写出模式；
+3. “帮我做续聊卡”等中文自然语言可触发写出模式，并能自动选择 QUICK/VERIFIED；
 4. `examples/run_demo.py` 的交接包可被新任务正确接收；
 5. 卸载或换机后没有依赖开发机绝对路径。
 

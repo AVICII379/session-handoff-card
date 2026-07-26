@@ -1,7 +1,7 @@
 {
   "name": "session-handoff-card",
-  "version": "0.3.2",
-  "description": "中文优先、模型中立的长会话上下文重建与可核验交接工作流。",
+  "version": "0.4.0",
+  "description": "中文优先、跨模型可读的会话续接与可核验项目交接工作流。",
   "author": {
     "name": "AVICII379",
     "url": "https://github.com/AVICII379"
@@ -17,9 +17,9 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "通用会话交接卡",
-    "shortDescription": "中文重建长会话上下文，生成可校验、跨模型可接手的交接卡",
-    "longDescription": "把长会话压缩为精简的 UTF-8 Markdown 接手卡，保留当前目标、失效要求、证据状态、权限边界和唯一下一动作；接收方先核验实时证据，只有冲突时才升级读取原始历史。",
+    "displayName": "AI 续聊交接卡",
+    "shortDescription": "把长聊天整理成可续接、可核验、跨模型通用的中文交接卡",
+    "longDescription": "在轻量续聊卡与核验版项目交接卡之间自动选择，把长会话压缩为普通 UTF-8 Markdown；保留当前目标、被覆盖要求、关键证据、权限边界、唯一下一动作和停止条件，并提供历史导出归一化与分享前隐私预览。",
     "developerName": "AVICII379",
     "websiteURL": "https://github.com/AVICII379/session-handoff-card",
     "category": "Productivity",
@@ -28,9 +28,9 @@
       "Write"
     ],
     "defaultPrompt": [
-      "使用交接卡完整梳理当前长会话，并生成中文、可校验的新会话接手包。",
-      "审计这份交接卡，重新核验可变状态后，仅执行唯一下一动作。",
-      "从会话导出分块重建上下文，明确缺口、覆盖要求和废弃分支。"
+      "帮我做一张轻量续聊卡，换到新聊天后能直接接着做。",
+      "为当前项目生成核验版交接卡，保留证据、边界和唯一下一步。",
+      "审计这张交接卡，先复述接手状态，再执行唯一下一动作。"
     ]
   }
 }

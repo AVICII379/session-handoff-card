@@ -1,11 +1,14 @@
 ---
-handoff_protocol: "session-handoff-card/v1.2"
+handoff_protocol: "session-handoff-card/v1.3"
 handoff_id: "HOF-DEMO-002"
 created_at: "2026-07-19T15:00:00-04:00"
 updated_at: "2026-07-19T15:00:00-04:00"
 status: "HANDOFF_READY"
 history_coverage: "FULL"
 language: "zh-CN"
+profile: "VERIFIED"
+delivery_mode: "repo"
+evidence_mode: "mixed"
 project_root: '{{PROJECT_ROOT}}'
 card_path: '{{CARD_PATH}}'
 source_session: 'demo-long-session'
@@ -31,7 +34,7 @@ target_models: "any"
 | --- | --- | --- | --- | --- | --- |
 | E1 | 完整示例会话和要求覆盖关系 | file:{{CONVERSATION_PATH}} | 全文与 3 个分块对应字符区间逐一一致 | VERIFIED | 2026-07-19T15:00:00-04:00 |
 | E2 | 分块索引连续且覆盖首尾 | file:{{HISTORY_INDEX}} | verify_history.py 返回精确覆盖 | VERIFIED | 2026-07-19T15:00:00-04:00 |
-| E3 | v1.2 Skill 和校验器存在 | file:{{SKILL_PATH}} | 文件存在，仓库测试和官方 Skill 校验通过 | VERIFIED | 2026-07-19T15:00:00-04:00 |
+| E3 | v1.3 Skill 和校验器存在 | file:{{SKILL_PATH}} | 文件存在，仓库测试和官方 Skill 校验通过 | VERIFIED | 2026-07-19T15:00:00-04:00 |
 
 - 已完成工作：完整分块并核验示例历史，合并覆盖关系，生成并严格校验核心交接卡。
 - 失败、阻塞与未决：联网摘要超时且禁止重试；许可证、维护者身份和 GitHub URL 尚未决定。
@@ -42,6 +45,7 @@ target_models: "any"
 - 预期输出：中文接手摘要，准确列出当前目标、失效要求、证据状态和停止条件。
 - 验证方式：不得恢复英文优先、自动安装、联网摘要或“不记录失败”，不得新增第二个动作。
 - 停止条件：必要证据不可访问、索引不连续、证据变化或用户改变范围时停止。
+- 后续候选（非授权）：选择许可证；创建 GitHub Release（均需用户另行授权）。
 
 ## 4. 接手说明
 

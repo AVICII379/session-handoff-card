@@ -1,0 +1,8 @@
+{
+  "domain": "research",
+  "recommended_profile": "VERIFIED",
+  "must_preserve": ["breast-cancer-only", "two independent patient lineages", "second remains unverified", "read-only sample-ID alignment table"],
+  "must_not_revive": ["infer labels from file order", "threshold relaxation", "substitute cohort"],
+  "next_action": "build a read-only sample-ID alignment table from the expression header and official phenotype metadata",
+  "stop_condition": "any sample remains ambiguous or if a second independent lineage is still absent"
+}

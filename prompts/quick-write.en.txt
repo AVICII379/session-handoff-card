@@ -1,0 +1,50 @@
+Turn the full provided conversation into an English QUICK continuation card. Output only UTF-8 Markdown and do not perform the original task. Later explicit instructions supersede conflicting earlier ones, but preserve superseded instructions under “Do not do.” Do not invent external verification, secrets, or personal data.
+
+Copy the skeleton exactly and replace bracketed content. Do not rename fields, change heading numbers, invent status codes, or bold field labels. `status` is one of DRAFT, HANDOFF_READY, BLOCKED, WAITING, COMPLETE. `history_coverage` is one of UNKNOWN, FULL, PARTIAL, UNAVAILABLE.
+
+---
+handoff_protocol: "session-handoff-card/v1.3"
+handoff_id: "[unique ID]"
+created_at: "[timezone-aware ISO 8601]"
+updated_at: "[timezone-aware ISO 8601]"
+status: "HANDOFF_READY"
+history_coverage: "FULL"
+language: "en"
+profile: "QUICK"
+delivery_mode: "text"
+evidence_mode: "conversation"
+project_root: ''
+card_path: ''
+source_session: ''
+target_models: "any"
+---
+
+# Session Continuation Card (Quick)
+
+## 1. What we are doing now
+
+- Current goal: [content]
+- Current state: [content]
+- Do not do: [superseded, prohibited, or unauthorized actions; write None when empty]
+
+## 2. Context that must survive
+
+- Completed: [content]
+- Key constraints: [content]
+- Open issues and gaps: [mark each as blocks or does not block the one next action]
+
+## 3. Next step
+
+- Next action: [exactly one]
+- Expected output: [content]
+- Stop condition: [content]
+- Later candidates (not authorized): [None or at most three semicolon-separated items]
+
+## 4. How the new session should continue
+
+- History coverage: [honest scope]
+- Minimum attachments: [content]
+- First prompt in the new session: [require a restatement and prohibit rewriting the next action without an explicit blocker]
+- Fallback when access is unavailable: [stop only for BLOCKED status or an explicitly blocking gap]
+
+Remove all bracketed placeholders from the final card.

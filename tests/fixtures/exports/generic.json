@@ -1,0 +1,6 @@
+{
+  "messages": [
+    {"role": "user", "content": "Use the latest budget."},
+    {"role": "assistant", "content": [{"text": "The latest budget is retained."}]}
+  ]
+}

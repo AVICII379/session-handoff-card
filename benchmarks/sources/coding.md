@@ -1,0 +1,3 @@
+# Coding session
+
+The user wants the CSV exporter to preserve embedded newlines on Windows. Early in the chat they allowed adding a third-party CSV package, but later explicitly changed the rule: use the Python standard library only and do not install dependencies. `tests/test_export.py::test_embedded_newline` currently fails because the writer is opened without `newline=""`. A previous attempt to normalize every newline with string replacement broke quoted fields and must not be retried. The repository has unrelated user edits in `README.md`; do not modify them. The next action is to inspect the exporter file and the failing test together before editing. Stop if the failure cannot be reproduced or the proposed edit overlaps unrelated user changes.

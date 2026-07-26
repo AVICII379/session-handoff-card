@@ -1,0 +1,7 @@
+{
+  "name": "Export test",
+  "chat_messages": [
+    {"sender": "human", "text": "Draft only."},
+    {"sender": "assistant", "text": "I will prepare a draft."}
+  ]
+}

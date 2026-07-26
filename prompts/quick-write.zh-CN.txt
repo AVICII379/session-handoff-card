@@ -1,0 +1,50 @@
+请把当前对话整理成中文 QUICK 续聊卡。只输出 UTF-8 Markdown 卡片，不执行原任务。完整处理全部已提供历史；最新明确要求覆盖早期冲突要求，但旧要求要保留在“不要做”。不要伪造外部核验、密钥或个人信息。
+
+严格复制下面骨架并替换方括号内容；不要改字段名、状态码、标题编号或项目路径字段名，不要给字段标签加粗。`status` 只能用 DRAFT、HANDOFF_READY、BLOCKED、WAITING、COMPLETE；`history_coverage` 只能用 UNKNOWN、FULL、PARTIAL、UNAVAILABLE。准备好接手且已处理全部已提供历史时使用 HANDOFF_READY/FULL。
+
+---
+handoff_protocol: "session-handoff-card/v1.3"
+handoff_id: "[唯一ID]"
+created_at: "[带时区ISO 8601时间]"
+updated_at: "[带时区ISO 8601时间]"
+status: "HANDOFF_READY"
+history_coverage: "FULL"
+language: "zh-CN"
+profile: "QUICK"
+delivery_mode: "text"
+evidence_mode: "conversation"
+project_root: ''
+card_path: ''
+source_session: ''
+target_models: "any"
+---
+
+# 会话续聊卡（轻量版）
+
+## 1. 现在要做什么
+
+- 当前目标：[内容]
+- 当前状态：[内容]
+- 不要做：[被覆盖、禁止或越权事项；没有则写“无”]
+
+## 2. 必须带走的上下文
+
+- 已完成：[内容]
+- 关键约束：[内容]
+- 未决与缺口：[每项明确写“阻塞”或“不阻塞唯一下一动作”；没有则写“无，不阻塞唯一下一动作”]
+
+## 3. 下一步
+
+- 下一动作：[恰好一个]
+- 预期输出：[内容]
+- 停止条件：[内容]
+- 后续候选（非授权）：[无，或用分号列最多3项]
+
+## 4. 新会话怎么接
+
+- 历史覆盖：[诚实说明 FULL/PARTIAL 的范围]
+- 最小附件：[内容]
+- 新会话首条提示词：[要求先复述目标、不要做、唯一下一动作和停止条件；未明确阻塞时不得改写唯一下一动作]
+- 无法访问时：[只有卡片为 BLOCKED 或缺口明确阻塞时才停下询问]
+
+中文正文尽量控制在 600–1200 字符。最终不要保留方括号占位内容。

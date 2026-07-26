@@ -1,0 +1,3 @@
+# Writing session
+
+The user is drafting a Chinese landing-page introduction for a note-taking app. The first request asked for about 500 Chinese characters and a formal corporate voice. The latest request supersedes both: 260–320 Chinese characters, warm and plainspoken, aimed at people who feel overwhelmed by scattered notes. Keep the existing product name “拾光笺” and the promise of local-first storage. Do not invent user counts, awards, testimonials, or encryption certifications. The user approved the three-part structure “困扰—方法—轻行动” but has not approved final copy. The next action is to write one 260–320-character draft in that structure. Stop and ask if a concrete performance or security claim seems necessary.

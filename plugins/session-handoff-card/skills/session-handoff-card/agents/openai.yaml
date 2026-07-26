@@ -1,4 +1,4 @@
 interface:
-  display_name: "通用会话交接卡"
-  short_description: "中文重建长会话，生成精简、可核验、可直接接手的跨模型交接卡"
-  default_prompt: "使用 $session-handoff-card 全量梳理当前长会话，生成中文精简交接卡；保留失效要求、关键证据和唯一下一步，严格校验后交给我。"
+  display_name: "AI 续聊交接卡"
+  short_description: "把长聊天整理成可续接、可核验、跨模型通用的中文交接卡"
+  default_prompt: "使用 $session-handoff-card 自动选择轻量或核验档位，生成可直接带到新会话的中文交接卡。"

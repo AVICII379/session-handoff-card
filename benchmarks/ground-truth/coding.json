@@ -1,0 +1,8 @@
+{
+  "domain": "coding",
+  "recommended_profile": "VERIFIED",
+  "must_preserve": ["standard library only", "do not install dependencies", "unrelated user edits", "newline=\"\""],
+  "must_not_revive": ["third-party CSV package", "normalize every newline"],
+  "next_action": "inspect the exporter file and the failing test together before editing",
+  "stop_condition": "failure cannot be reproduced or the proposed edit overlaps unrelated user changes"
+}

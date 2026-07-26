@@ -1,0 +1,59 @@
+请把当前工作整理成中文 VERIFIED 核验版交接卡，只输出 UTF-8 Markdown，不继续原任务。完整处理全部已提供历史；对话内容只能标 USER-PROVIDED，无法核验的外部状态标 UNVERIFIED 或 BLOCKED，不得伪造 VERIFIED。
+
+严格复制下面骨架并替换方括号内容；不要改字段名、标题编号、六列表头或给字段标签加粗。`status` 只能用 DRAFT、HANDOFF_READY、BLOCKED、WAITING、COMPLETE；`history_coverage` 只能用 UNKNOWN、FULL、PARTIAL、UNAVAILABLE；`evidence_mode` 用 conversation、external 或 mixed。外部证据型 HANDOFF_READY 至少有一条真实 VERIFIED。
+
+---
+handoff_protocol: "session-handoff-card/v1.3"
+handoff_id: "[唯一ID]"
+created_at: "[带时区ISO 8601时间]"
+updated_at: "[带时区ISO 8601时间]"
+status: "[允许状态码]"
+history_coverage: "[允许覆盖码]"
+language: "zh-CN"
+profile: "VERIFIED"
+delivery_mode: "[text/file/repo]"
+evidence_mode: "[conversation/external/mixed]"
+project_root: '[可空]'
+card_path: '[可空]'
+source_session: '[可空]'
+target_models: "any"
+---
+
+# 会话交接卡（核验版）
+
+## 1. 当前目标与边界
+
+- 当前目标：[内容]
+- 当前状态：[内容]
+- 验收标准：
+  - [ ] [至少一项]
+- 失效要求：[内容；没有写“无”]
+- 用户边界与偏好：[内容]
+
+## 2. 已核验证据与现状
+
+| ID | 证明内容或用途 | 来源 | 核验方法或结果 | 状态 | 最后核验时间 |
+| --- | --- | --- | --- | --- | --- |
+| E1 | [内容] | [合法来源前缀] | [内容] | [证据状态] | [带时区时间] |
+
+- 已完成工作：[内容]
+- 失败、阻塞与未决：[内容；没有写“无”]
+
+## 3. 唯一下一步
+
+- 下一动作：[恰好一个]
+- 预期输出：[内容]
+- 验证方式：[内容]
+- 停止条件：[内容]
+- 后续候选（非授权）：[无，或用分号列最多3项]
+
+## 4. 接手说明
+
+- 历史来源与覆盖：[内容]
+- 上下文缺口与影响：[内容]
+- 最小接手附件：[内容]
+- 路径映射或仓库定位：[纯文本可写“不适用”]
+- 新会话首条提示词：[内容]
+- 无法访问原环境时的降级方案：[内容]
+
+只列 3–6 条会改变接手决定的证据；最终不要保留方括号占位内容。

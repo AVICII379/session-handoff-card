@@ -1,0 +1,59 @@
+Turn the full provided history into an English VERIFIED handoff card. Output only UTF-8 Markdown and do not continue the original task. Conversation claims are USER-PROVIDED; inaccessible external state is UNVERIFIED or BLOCKED. Never fabricate VERIFIED evidence.
+
+Copy the skeleton exactly and replace bracketed content. Do not rename fields, change numbered headings or six-column headers, invent status codes, or bold field labels. `status` is DRAFT, HANDOFF_READY, BLOCKED, WAITING, or COMPLETE. `history_coverage` is UNKNOWN, FULL, PARTIAL, or UNAVAILABLE. `evidence_mode` is conversation, external, or mixed.
+
+---
+handoff_protocol: "session-handoff-card/v1.3"
+handoff_id: "[unique ID]"
+created_at: "[timezone-aware ISO 8601]"
+updated_at: "[timezone-aware ISO 8601]"
+status: "[allowed status]"
+history_coverage: "[allowed coverage]"
+language: "en"
+profile: "VERIFIED"
+delivery_mode: "[text/file/repo]"
+evidence_mode: "[conversation/external/mixed]"
+project_root: '[optional]'
+card_path: '[optional]'
+source_session: '[optional]'
+target_models: "any"
+---
+
+# Session Handoff Card (Verified)
+
+## 1. Current goal and boundaries
+
+- Current goal: [content]
+- Current state: [content]
+- Acceptance criteria:
+  - [ ] [at least one item]
+- Superseded requirements: [content or None]
+- User boundaries and preferences: [content]
+
+## 2. Verified evidence and state
+
+| ID | Claim or purpose | Source | Verification or result | State | Last checked |
+| --- | --- | --- | --- | --- | --- |
+| E1 | [content] | [supported source prefix] | [content] | [evidence state] | [timezone-aware timestamp] |
+
+- Completed work: [content]
+- Failures, blockers, and open issues: [content or None]
+
+## 3. The one next step
+
+- Next action: [exactly one]
+- Expected output: [content]
+- Verification: [content]
+- Stop condition: [content]
+- Later candidates (not authorized): [None or at most three semicolon-separated items]
+
+## 4. Receiving instructions
+
+- History source and coverage: [content]
+- Context gaps and impact: [content]
+- Minimum attachments: [content]
+- Path mapping or repository location: [Not applicable for text]
+- First prompt in the new session: [content]
+- Fallback without the original environment: [content]
+
+Keep 3–6 evidence rows that can change the receiving decision. Remove every bracketed placeholder from the final card.

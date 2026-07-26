@@ -1,0 +1,8 @@
+{
+  "domain": "writing",
+  "recommended_profile": "QUICK",
+  "must_preserve": ["260–320 Chinese characters", "warm and plainspoken", "拾光笺", "local-first storage", "困扰—方法—轻行动"],
+  "must_not_revive": ["500 Chinese characters", "formal corporate voice", "testimonials", "encryption certifications"],
+  "next_action": "write one 260–320-character draft in that structure",
+  "stop_condition": "a concrete performance or security claim seems necessary"
+}

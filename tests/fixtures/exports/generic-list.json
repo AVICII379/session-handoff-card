@@ -1,0 +1,4 @@
+[
+  {"role": "user", "content": "Keep the list in message order."},
+  {"role": "assistant", "content": "The order is preserved."}
+]

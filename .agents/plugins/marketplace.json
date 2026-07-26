@@ -1,7 +1,7 @@
 {
   "name": "session-handoff-card",
   "interface": {
-    "displayName": "通用会话交接卡"
+    "displayName": "AI 续聊交接卡"
   },
   "plugins": [
     {

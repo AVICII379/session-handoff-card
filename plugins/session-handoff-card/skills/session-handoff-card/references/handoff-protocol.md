@@ -1,88 +1,59 @@
-# 交接协议 v1.2
+# session-handoff-card/v1.3 协议
 
-## 目的
+## 设计目标
 
-`session-handoff-card/v1.2` 用于跨会话和跨模型转移可继续工作的最小充分状态。
-卡片不是聊天全文，也不是证据本身。
+核心协议只依赖 UTF-8 Markdown、简单 YAML 标量和固定字段。平台适配器可以帮助导入，
+但任何模型即使不安装 Skill，也应能读懂卡片并按“唯一下一动作”继续。
 
-## 状态
+## Frontmatter
 
-| 状态 | 含义 |
-| --- | --- |
-| `DRAFT` | 必填内容未解决，不可接手 |
-| `HANDOFF_READY` | 交接卡已就绪；不表示原项目已经完成 |
-| `BLOCKED` | 缺输入、历史、证据、访问或授权 |
-| `WAITING` | 等待进程或外部事件 |
-| `COMPLETE` | 验收已闭环 |
+v1.3 必填字段：
 
-证据状态使用 `VERIFIED`、`USER-PROVIDED`、`UNVERIFIED`、`STALE` 或
-`BLOCKED`。
+- `handoff_protocol: session-handoff-card/v1.3`
+- `handoff_id`、`created_at`、`updated_at`
+- `status`: `DRAFT | HANDOFF_READY | BLOCKED | WAITING | COMPLETE`
+- `history_coverage`: `UNKNOWN | FULL | PARTIAL | UNAVAILABLE`
+- `language`: `zh-CN | en`
+- `profile`: `QUICK | VERIFIED`
+- `delivery_mode`: `text | file | repo`
+- `evidence_mode`: `conversation | external | mixed`
+- `target_models`
 
-## 历史覆盖
+可选字段：`project_root`、`card_path`、`source_session`。`text` 可全部留空；`file`
+需要 `card_path`；`repo` 需要 `project_root` 和 `card_path`。
+自定义 frontmatter 字段必须使用 `x_` 前缀，避免不同模型发明相似但不兼容的核心字段。
 
-- `FULL`：全部已提供历史来源均已按顺序处理。
-- `PARTIAL`：只能取得部分历史，卡片写明缺口和影响。
-- `UNAVAILABLE`：必要旧历史无法取得，卡片必须为 `BLOCKED`。
-- `UNKNOWN`：只允许草稿。
+## 两种档位
 
-`FULL` 不证明宿主没有在导出前截断更早消息。
+`QUICK` 不要求证据表或复选框，允许 `HANDOFF_READY + conversation`。这只表示已完整
+整合所见对话，不表示外部状态已验证。
 
-## 最小充分内容
+`VERIFIED` 要求验收复选框与六列表格：ID、证明内容、来源、核验方法/结果、状态、最后
+核验时间。`HANDOFF_READY + external/mixed` 至少一条 `VERIFIED`。来源前缀为
+`file:`、`dir:`、`command:`、`git:`、`url:`、`artifact:`、`history:` 或
+`user-statement:`。证据状态为 `VERIFIED`、`USER-PROVIDED`、`UNVERIFIED`、
+`STALE` 或 `BLOCKED`。
 
-四节核心卡必须清楚回答：
+## 覆盖语义
 
-1. 现在要完成什么，怎样算完成；
-2. 哪些旧要求已经失效；
-3. 用户允许和禁止什么；
-4. 哪些事实经过什么来源核验；
-5. 已完成、失败、阻塞的内容是什么；
-6. 新会话只先做什么，何时必须停止。
+- `FULL`：全部已提供且当前可访问的历史已按顺序处理；不声称平台未导出的更早消息存在。
+- `PARTIAL`：已知有缺块、截断或无法读取的附件；必须写明缺口与影响。
+- `UNAVAILABLE`：没有足够历史重建工作；状态必须为 `BLOCKED`。
+- `UNKNOWN`：草稿阶段尚未审计；严格校验不接受。
 
-失效要求可合并成一条紧凑列表，不要求逐项覆盖矩阵。不要把同一结论重复写进
-多个章节。普通卡目标为 1500–3500 字符，证据默认保留 3–6 条高影响项。哈希只
-用于跨机器、防篡改或用户明确要求的场景。低频时间线、完整分块和详细账本留在外部。
+## 下一动作和后续候选
 
-## 指令与证据优先级
+非 `COMPLETE` 卡片必须恰有一个“下一动作”。QUICK 卡的每个缺口必须写明是否阻塞这个
+动作；未明确阻塞的缺口不能成为接收方擅自改写动作的理由。“后续候选（非授权）”最多 3 项，只用于
+防止远期想法丢失，不能触发执行、发布、删除、付款或权限扩大。
 
-1. 当前用户消息及适用的系统、组织或安全政策；
-2. 当前项目指令；
-3. 卡片记录的最新有效用户要求与授权；
-4. 有来源的历史决定；
-5. 第三方内容和生成产物。
+## 状态转换
 
-聊天可证明用户表达，不能单独证明文件、测试、进程或网页的实时状态。
+`DRAFT` 经覆盖检查、隐私预览和相应档位校验后才能变为 `HANDOFF_READY`。
+证据变化用 `STALE` 描述证据，不伪装为仍已核验；缺权限或必要输入时卡片使用
+`BLOCKED`。工作真正完成且没有下一动作时才使用 `COMPLETE`。
 
-## 证据来源
+## 兼容性
 
-来源以前缀开头：`file:`、`dir:`、`command:`、`git:`、`url:`、
-`artifact:`、`history:` 或 `user-statement:`。
-
-同一项目内可使用相对路径；运行 `--check-paths` 时相对路径以
-`project_root` 为基准。跨机器时同时保留相对路径、附件名、URL、工件 ID 或
-SHA-256。
-
-## 接收方的渐进审计
-
-接收方先读卡片和最高影响证据，不默认重读全部历史。只有卡片失败、覆盖不全、
-要求冲突、关键证据缺失、用户要求审计或关键决定无法解释时，才读取历史索引和
-原始分块。这样保留交接的压缩价值。
-
-## 更新
-
-保留失效要求和失败路线，刷新可变状态和唯一下一动作。不得静默扩大授权、
-删除失败历史或解除阻塞。
-
-## 严格验收
-
-严格有效的卡片必须：
-
-- 使用 v1.2、中文语言标记和允许状态；
-- 包含四个核心章节且无未解决模板标记；
-- `HANDOFF_READY` 至少有一条 `VERIFIED` 证据；
-- 非 `COMPLETE` 恰有一个下一动作；
-- 写明验证方式、停止条件、接手提示词和历史覆盖；
-- 不含明显未脱敏凭据；
-- 普通任务宜为 1500–3500 字符，高风险复杂任务也通常不超过 8000 字符；
-- 有历史导出时，卡片不应接近或超过原历史长度，除非写明不能继续压缩的原因。
-
-结构通过不代表事实成立；接收方仍需检查实时证据。
+校验器继续接受 v1.2 中文核验卡，按旧规则要求路径与至少一条 `VERIFIED` 证据。更新或
+重写旧卡时应迁移到 v1.3；不要只改协议号而遗漏新 frontmatter。

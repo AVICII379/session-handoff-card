@@ -1,0 +1,8 @@
+{
+  "domain": "planning",
+  "recommended_profile": "QUICK",
+  "must_preserve": ["5,500 CNY", "vegetarian", "cannot climb long stair routes", "one hotel", "no departures before 09:00"],
+  "must_not_revive": ["8,000 CNY", "theme-park day", "bookings", "sharing anyone's identity details"],
+  "next_action": "produce a shortlist of two destination plans with rough category budgets and accessibility notes",
+  "stop_condition": "checking out, contacting vendors, or requesting identity documents"
+}

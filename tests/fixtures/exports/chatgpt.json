@@ -1,0 +1,11 @@
+[
+  {
+    "title": "Export test",
+    "current_node": "n3",
+    "mapping": {
+      "n1": {"parent": null, "message": {"author": {"role": "user"}, "content": {"parts": ["Please keep the final constraint."]}, "create_time": 1}},
+      "n2": {"parent": "n1", "message": {"author": {"role": "assistant"}, "content": {"parts": ["Acknowledged."]}, "create_time": 2}},
+      "n3": {"parent": "n2", "message": {"author": {"role": "user"}, "content": {"parts": ["Do not publish anything."]}, "create_time": 3}}
+    }
+  }
+]

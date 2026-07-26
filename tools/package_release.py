@@ -95,7 +95,7 @@ def main() -> int:
     release_manifest = {
         "plugin": name,
         "version": version,
-        "protocol": "session-handoff-card/v1.2",
+        "protocol": "session-handoff-card/v1.3",
         "archive": archive_path.name,
         "sha256": digest,
         "file_count": len(files),
