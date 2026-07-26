@@ -28,7 +28,12 @@ def file_sha256(path: Path) -> str:
 
 
 def plugin_files() -> list[Path]:
-    files = sorted(path for path in PLUGIN_ROOT.rglob("*") if path.is_file())
+    # Path 的默认排序在 Windows 会折叠大小写，在 Linux 则区分大小写；必须按
+    # 归档内 POSIX 名称排序，才能让中央目录和本地文件头顺序跨平台一致。
+    files = sorted(
+        (path for path in PLUGIN_ROOT.rglob("*") if path.is_file()),
+        key=lambda path: path.relative_to(PLUGIN_ROOT).as_posix(),
+    )
     if not files:
         raise RuntimeError(f"插件目录为空：{PLUGIN_ROOT}")
     for path in files:

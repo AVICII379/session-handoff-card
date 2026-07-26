@@ -230,6 +230,10 @@ class RepositoryContractTests(unittest.TestCase):
             with zipfile.ZipFile(archive) as package:
                 infos = package.infolist()
                 names = {info.filename for info in infos}
+            self.assertEqual(
+                [info.filename for info in infos],
+                sorted(info.filename for info in infos),
+            )
             self.assertIn(".codex-plugin/plugin.json", names)
             self.assertIn("skills/session-handoff-card/SKILL.md", names)
             self.assertEqual(first_manifest["file_count"], len(names))
